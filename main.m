@@ -1,5 +1,8 @@
 clear;
 
+%% init
+addpath("./utils/")
+
 %% define constant value
 N = 10;															% sampled data length
 S = 1000;														% full data length

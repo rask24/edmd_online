@@ -42,3 +42,8 @@ toy data test for evaluation of EDMD online
 + mat_to_mat_tilde.m: convert matrix to matrix tilde (big matrix)
 + mat_to_vec_check.m: convert matrix to vector
 + images: images directory
+
+## feature-csc
++ convolutional sparse coded(dictionary learning)
+
+<!-- $$ \mathrm{argmin}_{\tilde{K} \in \mathbb{R}^{L \times L}} $$ -->
