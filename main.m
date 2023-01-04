@@ -1,7 +1,8 @@
 clear;
 
 %% init
-addpath("./utils/")
+addpath("./utils/");
+addpath("./DICTOL/");
 
 %% define constant value
 N = 10;															% sampled data length
