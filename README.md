@@ -18,25 +18,27 @@ toy data test for evaluation of EDMD online
 
 ## File Structure
 ```
- .
-├──  csc_test.m
-├──  DICTOL                               // csc library
-├──  images
-│  └──  data_definition.png
-├──  index.m
-├──  main.m
-├──  README.md
-└──  utils
-   ├──  dmd.m
-   ├──  fill_estimation.m
-   ├──  mat_to_mat_tilde.m
-   ├──  mat_to_vec_check.m
-   ├──  next_mat_K.m
-   ├──  nonlinear_mapping.m
-   ├──  nonlinear_mapping_inv.m
-   ├──  projection_onto_range_mat.m
-   ├──  time_evolution.m
-   └──  time_evolution_2d.m
+.
+├── DICTOL                               // csc library
+├── images
+│  └── edmd_online.png
+├── index.m
+├── main.m
+├── plot
+│  ├── error_transition.m
+│  └── rsme.m
+├── README.md
+└── utils
+   ├── dmd.m
+   ├── fill_estimation.m
+   ├── mat_to_mat_tilde.m
+   ├── mat_to_vec_check.m
+   ├── next_mat_K.m
+   ├── nonlinear_mapping.m
+   ├── nonlinear_mapping_inv.m
+   ├── projection_onto_range_mat.m
+   ├── time_evolution.m
+   └── time_evolution_2d.m
 ```
 + main.m: main file for test
     + define constant values
@@ -53,5 +55,3 @@ toy data test for evaluation of EDMD online
 
 ## feature-csc
 + convolutional sparse coded(dictionary learning)
-
-<!-- $$ \mathrm{argmin}_{\tilde{K} \in \mathbb{R}^{L \times L}} $$ -->
