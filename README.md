@@ -14,7 +14,7 @@ toy data test for evaluation of EDMD online
 + the initial mapping on feature space is determined in standard EDMD
 
 ### data definition
-![data_definition](./images/data_definition.png)
+![data_definition](./images/edmd_online.jpeg)
 
 ## File Structure
 ```
