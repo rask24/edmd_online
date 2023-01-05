@@ -1,7 +1,8 @@
 clear;
 
 %% init
-addpath("./utils/")
+addpath("./utils/");
+addpath("./DICTOL/");
 
 %% define constant value
 N = 10;															% sampled data length
@@ -30,7 +31,7 @@ for iter = 1:N													% mapping to feature space from state space
 		= nonlinear_mapping(X_smp(1, iter));
 end
 
-[Phi_edmd, eigs_edmd] = dmd(Y_edmd_smp);						% dmd
+[Phi_edmd, eigs_edmd] = dmd(Y_edmd_smp, L);						% dmd
 Y_edmd(:, 1) = Y_edmd_smp(:, 1);								% initialize Y_edmd with sampled data
 b_edmd = pinv(Phi_edmd) * Y_edmd(:, 1);							% for computing
 for iter = 2:S												% determine whole value of Y_edmd
@@ -65,7 +66,7 @@ for iter = 1:online_len
 		K_prev = K_online(:, :, iter - 1);
 	end
 	K_online(:, :, iter) = ...
-		next_mat_K(Y_online(:, iter+1:N+iter), K_0, step_size);
+		next_mat_K(Y_online(:, iter+1:N+iter), K_prev, step_size);
 	
 	for sub_iter = N+iter+1:S
 		tmp = K_online(:, :, iter)^(sub_iter - N - iter) * Y_online(:, N+iter);

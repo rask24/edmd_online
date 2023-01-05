@@ -1,3 +1,3 @@
 function ret = time_evolution(x)
-    ret = sin(x);
+    ret = 1.1 * sin(x);
 end
