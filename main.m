@@ -30,6 +30,9 @@ eval_len = whole_len - online_len - sample_len;
 state_dim = 2;
 feature_dim = 3;
 
+% step size of update K
+step_size = 0.8;
+
 % define toy data
 % original data
 X_org = zeros(state_dim, whole_len);
@@ -44,9 +47,6 @@ X_smp = X_org(:, 1:sample_len);
 
 % online data
 X_online = X_org(:, sample_len+1:whole_len);
-
-% step size of update K
-step_size = 0.01;
 
 %% 1. EDMD part
 % estimate X with EDMD only

@@ -22,6 +22,5 @@ function K_next = next_mat_K(Y_input, K_prev, step_size)
         K_tmp = reshape(k_next_check, [L, L]);
     end
 
-    % K_next = step_size * K_tmp + (1 - step_size) * K_prev; 
-    K_next = K_tmp;
+    K_next = step_size * K_tmp + (1 - step_size) * K_prev; 
 end
