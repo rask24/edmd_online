@@ -55,3 +55,7 @@ toy data test for evaluation of EDMD online
 
 ## feature-csc
 + convolutional sparse coded(dictionary learning)
+
+
+## DICTOL
+* [githb link](github.com/tiepvupsu/DICTOL)
