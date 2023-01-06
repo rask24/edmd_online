@@ -19,10 +19,11 @@ toy data test for evaluation of EDMD online
 ## File Structure
 ```
 .
+├── archive
+│  └── _main.m
 ├── DICTOL                               // csc library
 ├── images
 │  └── edmd_online.png
-├── index.m
 ├── main.m
 ├── plot
 │  ├── error_transition.m
@@ -40,22 +41,26 @@ toy data test for evaluation of EDMD online
    ├── time_evolution.m
    └── time_evolution_2d.m
 ```
-+ main.m: main file for test
-    + define constant values
-    + define original data and sampled data on state space
-    + EDMD
-    + EDMD online (not included)
-+ dmd.m: define dynamic mode decomposition
-+ time_evolution.m: define time evolution function on state space
-+ nonlinear_mapping.m: define nonlinear mappnig from state space to feature space
-+ nonlinear_mapping_inv.m: define nonlinear mapping from feature space to state space
-+ mat_to_mat_tilde.m: convert matrix to matrix tilde (big matrix)
-+ mat_to_vec_check.m: convert matrix to vector
++ main.m: main file for toy data test
++ util: utility function defined on this directory
+    + dmd.m: dynamic mode decomposition
+    + time_evolutions2d.m: define time evolution function on state space
+    + mat_to_mat_tilde.m: convert matrix to matrix tilde (big matrix)
+    + mat_to_vec_check.m: convert matrix to vector
 + images: images directory
++ archive: archive directory using nonlinear mapping(state space <--> feature space)
+    + utility functions for _main.m
+        + nonlinear_mapping.m: define nonlinear mappnig from state space to feature space
+        + nonlinear_mapping_inv.m: define nonlinear mapping from feature space to state space
+        + time_evolution.m: define time evolution function on state space
++ plot: functions defined for plot
+    + error_transition.m: return rsme corresponding to iteration
+    + rsme.m: define rsme(root square mean eror) between 2 matrices
++ DCTORL: csc library
 
-## feature-csc
+## csc
 + convolutional sparse coded(dictionary learning)
-
++ D(Dictionary): mapping from feature space to state space
 
 ## DICTOL
-* [githb link](github.com/tiepvupsu/DICTOL)
+* [githb link](https://github.com/tiepvupsu/DICTOL)

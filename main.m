@@ -1,117 +1,120 @@
 clear;
 
-%% init
-addpath("./utils/");
-addpath("./DICTOL/");
+% 0. init
+% 1. EDMD part
+% 2. EDMD online part
+% 3. performance evaluation
 
-%% define constant value
-N = 10;															% sampled data length
-S = 1000;														% full data length
-M = 1;															% dimension of state space
-L = 2;															% demension of feature space
-online_len = 100;												% size of X_online
-eval_len = S - online_len;
+%% 0. init
+% set path
+addpath('./utils/');
+addpath('./plot/');
+addpath(genpath('./DICTOL/'));
 
-%% define toy data
-X_org = zeros(M, S);											% original data of X
-X_org(1) = 1;													% initial value of X
-for iter = 2:S													% define whole X value with time evolution
-	X_org(iter) = time_evolution(X_org(iter-1));
+% csc options
+lambda             = 1e-6;
+opts.max_iter      = 500;
+opts.show_progress = 0;
+opts.check_grad    = false;  
+opts.tol           = 1e-8;  
+opts.verbose       = true;
+
+% define constant value
+% data length
+sample_len = 100;
+whole_len = 1000;
+online_len = 300;
+eval_len = whole_len - online_len - sample_len;
+
+% dimension of space
+state_dim = 2;
+feature_dim = 3;
+
+% define toy data
+% original data
+X_org = zeros(state_dim, whole_len);
+X_org(:, 1) = [1 ; 0];
+for k = 2:whole_len
+    [X_org(1, k), X_org(2, k)] = ...
+        time_evolution_2d(X_org(1, k-1), X_org(2, k-1), 1);
 end
 
-X_smp = X_org(:, 1:N);											% define sampled vlaue of X
-X_online = X_org(:, N+1:S);										% define sampled vlaue of X for online
+% sample data
+X_smp = X_org(:, 1:sample_len);
+
+% online data
+X_online = X_org(:, sample_len+1:whole_len);
+
+% step size of update K
+step_size = 0.01;
 
 %% 1. EDMD part
-X_est_edmd = zeros(M, S);										% estimated value of X with edmd
-Y_edmd = zeros(L, S);											% define datesets of feature space
-Y_edmd_smp = zeros(L, N);										% define sampled datasets of feature space for dmd
-for iter = 1:N													% mapping to feature space from state space
-	[Y_edmd_smp(1, iter), Y_edmd_smp(2, iter)] ...
-		= nonlinear_mapping(X_smp(1, iter));
-end
+% estimate X with EDMD only
+% execute blow steps
+% 1. init X_est_edmd
+% 2. compute
+%    a. Dictionary 'D'
+%    b. sparse coefficients 'Y' (feature space)
+% 3. DMD on feature space
+% 4. reconstruction X form D with D
 
-[Phi_edmd, eigs_edmd] = dmd(Y_edmd_smp, L);						% dmd
-Y_edmd(:, 1) = Y_edmd_smp(:, 1);								% initialize Y_edmd with sampled data
-b_edmd = pinv(Phi_edmd) * Y_edmd(:, 1);							% for computing
-for iter = 2:S												% determine whole value of Y_edmd
-	Y_edmd(:, iter) = Phi_edmd * (eigs_edmd^(iter-1)) * b_edmd;
+X_est_edmd = zeros(state_dim, whole_len);
+X_est_edmd(:, 1:sample_len) = X_org(:, 1:sample_len);
+[D, Y_edmd] = ODL(X_smp, feature_dim, lambda, opts, 'fista');
+D_pinv = pinv(D);
+[Phi_edmd, eigs_edmd] = dmd(Y_edmd, feature_dim);
+
+b = pinv(Phi_edmd) * Y_edmd(:, sample_len);
+for k = sample_len+1:whole_len
+    b = eigs_edmd * b;
+    X_est_edmd(:, k) = D * Phi_edmd * b;
 end
 
 K_0 = Phi_edmd * eigs_edmd * pinv(Phi_edmd);
 
-X_est_edmd(:, 1) = X_smp(:, 1);									% inital value of X_est_edmd is initial vlaue of sampled value of X
-for iter = 1:S													% mapping to state space from feature space
-	X_est_edmd(1, iter) = nonlinear_mapping_inv(Y_edmd(1, iter));
+% complex to double
+X_est_edmd = real(X_est_edmd);
+
+%% 2. EDMD online
+% 1. define data variable
+% 2. EDMD online
+%    update K
+X_est_online = zeros(state_dim, whole_len, online_len);
+Y_online = zeros(feature_dim, whole_len); % sample_len + online_len 
+Y_online(:, 1:sample_len) = Y_edmd;
+K_online = zeros(feature_dim, feature_dim, online_len);
+
+K_prev = K_0;
+for k = 1:online_len
+    X_est_online(:, 1:sample_len, k) = X_smp;
+    for l = 1:k
+        X_est_online(:, sample_len+l, k) = X_online(:, l);
+    end
+    Y_online(:, sample_len+k) = D_pinv * X_online(:, k);
+
+    K_online(:, :, k) = ...
+        next_mat_K(Y_online(:, k+1:k+sample_len), K_prev, step_size);
+    
+    for l = sample_len+k+1:whole_len
+        X_est_online(:, l, k) = ...
+            D * K_online(:, :, k)^(l - sample_len - k) * Y_online(:, sample_len+k);
+    end
+    K_prev = K_online(:, :, k);
 end
 
-%% 2. EDMD online part
-X_est_online = zeros(M, S, online_len);							% estimated value of X, M times S matrix with S-N sheets
-Y_online = zeros(L, S);
-Y_online(:, 1:N) = Y_edmd_smp;
-K_online = zeros(L, L, online_len);
-step_size = 1;
+% complex to double
+X_est_online = real(X_est_online);
 
-for iter = 1:online_len
-	X_est_online(:, 1:N, iter) = X_smp(:, :);
-	for sub_iter = 1:iter
-		X_est_online(:, N+sub_iter, iter) = X_online(:, sub_iter);
-	end
-	[Y_online(1, N+iter), Y_online(2, N+iter)] = ...
-		nonlinear_mapping(X_online(:, iter));
-	
-	if iter == 1
-		K_prev = K_0;
-	else
-		K_prev = K_online(:, :, iter - 1);
-	end
-	K_online(:, :, iter) = ...
-		next_mat_K(Y_online(:, iter+1:N+iter), K_prev, step_size);
-	
-	for sub_iter = N+iter+1:S
-		tmp = K_online(:, :, iter)^(sub_iter - N - iter) * Y_online(:, N+iter);
-		X_est_online(1, sub_iter, iter) = nonlinear_mapping_inv(tmp(1, 1));
-	end
-end
-
-% start
-% K_new = next_mat_K(Y_online(:, 2:N+1), K_0, 0.1);
-% end
-
-% for iter = N+2:S
-% 	tmp = zeros(L, 1);
-% 	tmp(:, 1) = K_o^(iter - N - 1) * Y_online(:, N+1);
-% 	X_est_online(1, iter, 1) = nonlinear_mapping_inv(tmp(1, 1));
-% end
-
-%% plot error
+%% 3. performance evaluation
+% figure(1)
+% plot error corespoinding online iteration
 figure(1);
-err_0 = zeros(1, S);
-for iter = 1:S
-	err_0(1, iter) = abs(X_org(1, iter) - X_est_edmd(1, iter));
-end
-semilogy(1:S, err_0, 'DisplayName', 'K_0');
-hold on;
-for iter = 1:10:online_len
-	err_tmp = zeros(1, S);
-	for sub_iter = 1:S
-		err_tmp(1, sub_iter) = (X_org(1, sub_iter) - X_est_online(1, sub_iter, iter))^2;
-	end
-	semilogy(1:S, err_tmp, 'DisplayName', join(['K_{', num2str(iter), '}']));
-end
-lgd = legend;
-lgd.NumColumns = 2;
-hold off;
+err_online = error_transition(X_org, X_est_edmd, ...
+    X_est_online, sample_len, online_len, whole_len);
+semilogy(0:online_len, err_online);
 
 figure(2);
-err_online = zeros(1, online_len+1);
-eval_start = S - eval_len;
-for iter = eval_start:S
-	err_online(1, 1) = err_online(1, 1) + (X_org(1, iter) - X_est_edmd(1, iter))^2;
-end
-for iter = 1:online_len
-	for sub_iter = eval_start:S
-		err_online(1, iter+1) = err_online(1, iter+1) + (X_org(1, sub_iter) - X_est_online(1, sub_iter, iter))^2;
-	end
-end
-semilogy(0:online_len, err_online);
+hold on;
+scatter(X_org(1, :), X_org(2, :));
+scatter(X_est_edmd(1, :), X_est_edmd(2, :));
+scatter(X_est_online(1, :, online_len), X_est_online(2, :, online_len));
