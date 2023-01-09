@@ -3,6 +3,8 @@ function K_next = next_mat_K(Y_input, K_prev, step_size)
     Y_before = Y_input(:, 1:N-1);
     Y_after = Y_input(:, 2:N);
 
+    % [orthogonal_basis_Y_before, ~, ~] = svd(Y_before, 'econ');
+
     Y_before_tilde = mat_to_mat_tilde(Y_before', L);
     Y_after_check = mat_to_vec_check(Y_after);
 
