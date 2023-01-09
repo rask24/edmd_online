@@ -7,13 +7,14 @@ clear;
 
 %% 0. init
 % set path
+addpath('./edmd_online/');
 addpath('./utils/');
 addpath('./plot/');
 addpath(genpath('./DICTOL/'));
 
 % csc options
 lambda             = 1e-6;
-opts.max_iter      = 500;
+opts.max_iter      = 600;
 opts.show_progress = 0;
 opts.check_grad    = false;  
 opts.tol           = 1e-8;  
@@ -23,7 +24,7 @@ opts.verbose       = true;
 % data length
 sample_len = 100;
 whole_len = 1000;
-online_len = 300;
+online_len = 200;
 eval_len = whole_len - online_len - sample_len;
 
 % dimension of space
@@ -31,7 +32,7 @@ state_dim = 2;
 feature_dim = 3;
 
 % step size of update K
-step_size = 0.8;
+step_size = 0.1;
 
 % define toy data
 % original data
@@ -93,17 +94,17 @@ for k = 1:online_len
     Y_online(:, sample_len+k) = D_pinv * X_online(:, k);
 
     K_online(:, :, k) = ...
-        next_mat_K(Y_online(:, k+1:k+sample_len), K_prev, step_size);
+        next_mat_K(Y_online(:, 1+k:sample_len+k), K_prev, step_size);
     
     for l = sample_len+k+1:whole_len
         X_est_online(:, l, k) = ...
             D * K_online(:, :, k)^(l - sample_len - k) * Y_online(:, sample_len+k);
     end
+    % complex to double
+    X_est_online(:, :, k) = real(X_est_online(:, :, k));
+
     K_prev = K_online(:, :, k);
 end
-
-% complex to double
-X_est_online = real(X_est_online);
 
 %% 3. performance evaluation
 % figure(1)

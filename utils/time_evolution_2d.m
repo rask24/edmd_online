@@ -9,6 +9,10 @@ function [ret1, ret2] = time_evolution_2d(input1, input2, mod)
         mat = eye(2);
     end
     tmp = mat * [input1 ; input2];
-    ret1 = [1.001 0] * tmp;
-    ret2 = ([0 1] * tmp)^2;
+    ret1 = [1 0] * tmp;
+    ret2 = [0 1] * tmp;
+    % ret1  = ret1 + sin(ret2);
+    % ret1  = ret1 + cos(ret1);
+    % ret1 = [1.001 0] * tmp;
+    % ret2 = ([0 1] * tmp)^2;
 end
