@@ -1,4 +1,4 @@
-function [ret1, ret2] = time_evolution_2d(input1, input2, mod)
+function [ret1, ret2] = linear_time_variant(input1, input2, mod)
     theta = 0.005;
     mat = [cos(theta) -sin(theta); sin(theta) cos(theta)];
     if mod == 1
@@ -13,8 +13,4 @@ function [ret1, ret2] = time_evolution_2d(input1, input2, mod)
     ret2 = [0 1] * tmp;
     ret1 = r * ret1 + add;
     ret2 = r * ret2;
-    % ret1  = ret1 + sin(ret2);
-    % ret1  = ret1 + cos(ret1);
-    % ret1 = [1.001 0] * tmp;
-    % ret2 = ([0 1] * tmp)^2;
 end

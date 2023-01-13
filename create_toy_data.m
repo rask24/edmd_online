@@ -9,13 +9,13 @@ function X_org = create_toy_data()
     for k = 2:SymConfig.WHOLE_LEN
         if k < 200
             [X_org(1, k), X_org(2, k)] = ...
-                time_evolution_2d(X_org(1, k-1), X_org(2, k-1), 1);
+                linear_time_variant(X_org(1, k-1), X_org(2, k-1), 1);
         elseif k < 400
             [X_org(1, k), X_org(2, k)] = ...
-                time_evolution_2d(X_org(1, k-1), X_org(2, k-1), 2);
+                linear_time_variant(X_org(1, k-1), X_org(2, k-1), 2);
         else
             [X_org(1, k), X_org(2, k)] = ...
-                time_evolution_2d(X_org(1, k-1), X_org(2, k-1), 1);
+                linear_time_variant(X_org(1, k-1), X_org(2, k-1), 1);
         end
     end
 end

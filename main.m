@@ -6,16 +6,20 @@ clear;
 % 3. performance evaluation
 
 %% 0. init
+% warning off
+warning('off', 'all');
+
 % set path
 addpath('./edmd_online/');
-addpath('./utils/');
-addpath('./plot/');
+addpath('./time_evolution/');
+addpath('./util_plot/');
 addpath(genpath('./DICTOL/'));
-
 
 % define toy data
 % original data
-original_data_path = './data/toy/linear_time_variant.mat';
+toy_data_filename = 'linear_time_variant';
+toy_data_dirname = './data/toy_data';
+original_data_path = strcat(toy_data_dirname, '/', toy_data_filename, '.mat');
 if exist(original_data_path, 'file') == 2
     load(original_data_path);
 else
@@ -25,7 +29,6 @@ end
 
 % sample data
 X_smp = X_org(:, 1:SymConfig.SAMPLE_LEN);
-
 % online data
 X_online = X_org(:, SymConfig.SAMPLE_LEN+1:SymConfig.WHOLE_LEN);
 
@@ -38,6 +41,9 @@ X_online = X_org(:, SymConfig.SAMPLE_LEN+1:SymConfig.WHOLE_LEN);
 %    b. sparse coefficients 'Y' (feature space)
 % 3. DMD on feature space
 % 4. reconstruction X form D with D
+
+% timer start
+tic
 
 X_est_edmd = zeros(SymConfig.STATE_DIM, SymConfig.WHOLE_LEN);
 X_est_edmd(:, 1:SymConfig.SAMPLE_LEN) = X_org(:, 1:SymConfig.SAMPLE_LEN);
@@ -59,8 +65,7 @@ X_est_edmd = real(X_est_edmd);
 
 %% 2. EDMD online
 % 1. define data variable
-% 2. EDMD online
-%    update K
+% 2. EDMD online -> update K
 X_est_online = zeros(SymConfig.STATE_DIM, SymConfig.WHOLE_LEN, SymConfig.ONLINE_LEN);
 Y_online = zeros(SymConfig.FEATURE_DIM, SymConfig.SAMPLE_LEN+SymConfig.ONLINE_LEN); 
 Y_online(:, 1:SymConfig.SAMPLE_LEN) = Y_edmd;
@@ -88,6 +93,28 @@ for k = 1:SymConfig.ONLINE_LEN
     K_prev = K_online(:, :, k);
 end
 
+% timer stop
+edmd_online_execution_time = toc
+
+%% EDMD only
+tic
+X_est_edmd_only = zeros(SymConfig.STATE_DIM, SymConfig.WHOLE_LEN);
+X_est_edmd_only(:, 1:SymConfig.SAMPLE_LEN+SymConfig.ONLINE_LEN) = X_org(:, 1:SymConfig.SAMPLE_LEN+SymConfig.ONLINE_LEN);
+[D_edmd_only, Y_edmd_only] = ODL(X_est_edmd_only(:, 1:SymConfig.SAMPLE_LEN+SymConfig.ONLINE_LEN), ...
+    SymConfig.FEATURE_DIM, SymConfig.LAMBDA, SymConfig.CSC_OPTS, 'fista');
+[Phi_edmd_only, eigs_edmd_only] = dmd(Y_edmd_only, SymConfig.FEATURE_DIM);
+
+b_edmd_only = pinv(Phi_edmd_only) * Y_edmd_only(:, SymConfig.SAMPLE_LEN+SymConfig.ONLINE_LEN);
+for k = SymConfig.SAMPLE_LEN+SymConfig.ONLINE_LEN+1:SymConfig.WHOLE_LEN
+    b_edmd_only = eigs_edmd_only * b_edmd_only;
+    X_est_edmd_only(:, k) = D_edmd_only * Phi_edmd_only * b_edmd_only;
+end
+
+% complex to double
+X_est_edmd_only = real(X_est_edmd_only);
+
+edmd_only_execution_time = toc
+
 %% 3. performance evaluation
 % figure(1)
 % plot error corespoinding online iteration
@@ -99,5 +126,5 @@ semilogy(0:SymConfig.ONLINE_LEN, err_online, 'o');
 figure(2);
 hold on;
 scatter(X_org(1, :), X_org(2, :));
-scatter(X_est_edmd(1, :), X_est_edmd(2, :));
+scatter(X_est_edmd_only(1, :), X_est_edmd_only(2, :));
 scatter(X_est_online(1, :, SymConfig.ONLINE_LEN), X_est_online(2, :, SymConfig.ONLINE_LEN));

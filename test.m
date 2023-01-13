@@ -1,3 +1,3 @@
-SymConfig.STATE_DIM
-SymConfig.WHOLE_LEN
-exist('utils/ddd.m', 'file')
+tic
+pause(2);
+execution_time = toc;

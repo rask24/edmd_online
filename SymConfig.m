@@ -1,6 +1,5 @@
 classdef SymConfig
     properties (Constant)
-        
         % csc options
         LAMBDA = 1e-6;
         CSC_OPTS = struct( ...
@@ -11,7 +10,6 @@ classdef SymConfig
             'verbose', true ...
         );
 
-        % define constant value
         % data length
         SAMPLE_LEN = 100;
         WHOLE_LEN = 5000;
@@ -24,9 +22,5 @@ classdef SymConfig
 
         % step size of update K
         STEP_SIZE = 0.1;
-    end
-
-    properties
-        EVAL_LEN = WHOLE_LEN - ONLINE_LEN - SAMPLE_LEN;
     end
 end
