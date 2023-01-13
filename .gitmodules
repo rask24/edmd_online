@@ -1,0 +1,3 @@
+[submodule "DICTOL"]
+	path = DICTOL
+	url = git@github.com:tiepvupsu/DICTOL.git
