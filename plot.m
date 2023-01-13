@@ -2,13 +2,10 @@ clear;
 
 addpath('./util_plot/');
 
-target_filename = 'linear_time_variant';
-result_file_path = strcat(SymConfig.RESULT_PATH, target_filename, '.mat');
-
-if exist(result_file_path, 'file') == 2
-    load(result_file_path);
+if exist(SymConfig.RESULT_FILE_PATH, 'file') == 2
+    load(SymConfig.RESULT_FILE_PATH);
 else
-    disp(strcat(result_file_path, ' does not exist.'));
+    disp(strcat(SymConfig.RESULT_FILE_PATH, ' does not exist.'));
     disp('please execute main.m before executing plot.m');
 end
 
