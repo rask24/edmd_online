@@ -10,7 +10,7 @@ clear;
 warning('off', 'all');
 
 % set path
-addpath('./edmd_online/');
+addpath('./util_edmd_online/');
 addpath('./time_evolution/');
 addpath('./util_plot/');
 addpath(genpath('./DICTOL/'));

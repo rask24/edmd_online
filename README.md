@@ -22,31 +22,37 @@ toy data test for evaluation of EDMD online
 ├── create_toy_data.m
 ├── data
 │  ├── result
-│  │  └── linear_time_variant.mat
+│  │  ├── linear_time_variant.mat
+│  │  └── nonlinear_sin_rot.mat
 │  └── toy_data
-│     └── linear_time_variant.mat
-├── DICTOL                                            //csc library
-├── edmd_online
-│  ├── dmd.m
-│  ├── mat_to_mat_tilde.m
-│  ├── mat_to_vec_check.m
-│  ├── next_mat_K.m
-│  └── projection_onto_range_mat.m
+│     ├── linear_time_variant.mat
+│     └── nonlinear_sin_rot.mat
+├── DICTOL                                                          // csc Library
 ├── images
 │  ├── algorithm.jpeg
 │  ├── edmd_online.jpeg
 │  ├── linear_time_variant_trajectory.jpg
-│  └── linear_time_variant_transition.jpg
+│  ├── linear_time_variant_transition.jpg
+│  ├── nonlinear_sin_rot_rmse.jpg
+│  └── nonlinear_sin_rot_trajectory.jpg
 ├── main.m
 ├── plot.m
 ├── README.md
 ├── SymConfig.m
 ├── test.m
 ├── time_evolution
-│  └── linear_time_variant.m
+│  ├── linear_time_variant.m
+│  └── nonlinear_sin_rot.m
+├── util_edmd_online
+│  ├── dmd.m
+│  ├── mat_to_mat_tilde.m
+│  ├── mat_to_vec_check.m
+│  ├── next_mat_K.m
+│  └── projection_onto_range_mat.m
 └── util_plot
    ├── error_transition.m
    └── rmse.m
+
 ```
 
 <!-- + main.m: main file for toy data test
