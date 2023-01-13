@@ -1,9 +1,9 @@
 clear;
 
 % 0. init
-% 1. EDMD part
+% 1. EDMD for online part
 % 2. EDMD online part
-% 3. performance evaluation
+% 3. EDMD only part
 
 %% 0. init
 % warning off
@@ -28,7 +28,7 @@ X_smp = X_org(:, 1:SymConfig.SAMPLE_LEN);
 % online data
 X_online = X_org(:, SymConfig.SAMPLE_LEN+1:SymConfig.WHOLE_LEN);
 
-%% 1. EDMD part
+%% 1. EDMD for online part
 % estimate X with EDMD only
 % execute blow steps
 % 1. init X_est_edmd
