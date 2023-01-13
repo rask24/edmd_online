@@ -16,15 +16,11 @@ addpath('./util_plot/');
 addpath(genpath('./DICTOL/'));
 
 % define toy data
-% original data
-toy_data_filename = 'linear_time_variant';
-toy_data_dirname = './data/toy_data';
-original_data_path = strcat(toy_data_dirname, '/', toy_data_filename, '.mat');
-if exist(original_data_path, 'file') == 2
-    load(original_data_path);
+if exist(SymConfig.ORIGINAL_DATA_PATH, 'file') == 2
+    load(SymConfig.ORIGINAL_DATA_PATH);
 else
     X_org = create_toy_data();
-    save(original_data_path, 'X_org');
+    save(SymConfig.ORIGINAL_DATA_PATH, 'X_org');
 end
 
 % sample data
@@ -94,7 +90,8 @@ for k = 1:SymConfig.ONLINE_LEN
 end
 
 % timer stop
-edmd_online_execution_time = toc
+edmd_online_execution_time = toc;
+disp(edmd_online_execution_time);
 
 %% EDMD only
 tic
@@ -113,18 +110,7 @@ end
 % complex to double
 X_est_edmd_only = real(X_est_edmd_only);
 
-edmd_only_execution_time = toc
+edmd_only_execution_time = toc;
+disp(edmd_only_execution_time);
 
-%% 3. performance evaluation
-% figure(1)
-% plot error corespoinding online iteration
-figure(1);
-err_online = error_transition(X_org, X_est_edmd, ...
-    X_est_online, SymConfig.SAMPLE_LEN, SymConfig.ONLINE_LEN, SymConfig.WHOLE_LEN);
-semilogy(0:SymConfig.ONLINE_LEN, err_online, 'o');
-
-figure(2);
-hold on;
-scatter(X_org(1, :), X_org(2, :));
-scatter(X_est_edmd_only(1, :), X_est_edmd_only(2, :));
-scatter(X_est_online(1, :, SymConfig.ONLINE_LEN), X_est_online(2, :, SymConfig.ONLINE_LEN));
+save(SymConfig.RESULT_FILE_PATH);

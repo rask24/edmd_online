@@ -19,36 +19,44 @@ toy data test for evaluation of EDMD online
 ## File Structure
 ```
 .
-├── archive
-│  └── _main.m
-├── DICTOL                               // csc library
+├── create_toy_data.m
+├── data
+│  ├── result
+│  │  └── linear_time_variant.mat
+│  └── toy_data
+│     └── linear_time_variant.mat
+├── DICTOL                                            //csc library
+├── edmd_online
+│  ├── dmd.m
+│  ├── mat_to_mat_tilde.m
+│  ├── mat_to_vec_check.m
+│  ├── next_mat_K.m
+│  └── projection_onto_range_mat.m
 ├── images
-│  └── edmd_online.png
+│  ├── algorithm.jpeg
+│  ├── edmd_online.jpeg
+│  ├── linear_time_variant_trajectory.jpg
+│  └── linear_time_variant_transition.jpg
 ├── main.m
-├── plot
-│  ├── error_transition.m
-│  └── rsme.m
+├── plot.m
 ├── README.md
-└── utils
-   ├── dmd.m
-   ├── fill_estimation.m
-   ├── mat_to_mat_tilde.m
-   ├── mat_to_vec_check.m
-   ├── next_mat_K.m
-   ├── nonlinear_mapping.m
-   ├── nonlinear_mapping_inv.m
-   ├── projection_onto_range_mat.m
-   ├── time_evolution.m
-   └── time_evolution_2d.m
+├── SymConfig.m
+├── test.m
+├── time_evolution
+│  └── linear_time_variant.m
+└── util_plot
+   ├── error_transition.m
+   └── rsme.m
 ```
-+ main.m: main file for toy data test
+
+<!-- + main.m: main file for toy data test
 + util: utility function defined on this directory
     + dmd.m: dynamic mode decomposition
     + time_evolutions2d.m: define time evolution function on state space
     + mat_to_mat_tilde.m: convert matrix to matrix tilde (big matrix)
     + mat_to_vec_check.m: convert matrix to vector
 + images: images directory
-+ archive: archive directory using nonlinear mapping(state space <--> feature space)
++ archive: archive directory using nonlinear mapping(state space <-> feature space)
     + utility functions for _main.m
         + nonlinear_mapping.m: define nonlinear mappnig from state space to feature space
         + nonlinear_mapping_inv.m: define nonlinear mapping from feature space to state space
@@ -56,7 +64,9 @@ toy data test for evaluation of EDMD online
 + plot: functions defined for plot
     + error_transition.m: return rsme corresponding to iteration
     + rsme.m: define rsme(root square mean eror) between 2 matrices
-+ DCTORL: csc library
++ DCTORL: csc library -->
+
++ detail later...
 
 ## csc
 + convolutional sparse coded(dictionary learning)
