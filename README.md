@@ -1,4 +1,4 @@
-# Toy Data Test
+# EDMD ONLINE
 toy data test for evaluation of EDMD online
 
 ## detail
@@ -46,7 +46,7 @@ toy data test for evaluation of EDMD online
 │  └── linear_time_variant.m
 └── util_plot
    ├── error_transition.m
-   └── rsme.m
+   └── rmse.m
 ```
 
 <!-- + main.m: main file for toy data test
@@ -62,8 +62,8 @@ toy data test for evaluation of EDMD online
         + nonlinear_mapping_inv.m: define nonlinear mapping from feature space to state space
         + time_evolution.m: define time evolution function on state space
 + plot: functions defined for plot
-    + error_transition.m: return rsme corresponding to iteration
-    + rsme.m: define rsme(root square mean eror) between 2 matrices
+    + error_transition.m: return rmse corresponding to iteration
+    + rmse.m: define rmse(root square mean eror) between 2 matrices
 + DCTORL: csc library -->
 
 + detail later...

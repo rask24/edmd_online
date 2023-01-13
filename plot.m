@@ -30,3 +30,10 @@ scatter(X_est_online(1, :, SymConfig.ONLINE_LEN), X_est_online(2, :, SymConfig.O
 legend('Toy data', 'EDMD', 'EDMD online')
 xlabel('x_1');
 ylabel('x_2');
+
+% calculate rmse EDMD online vs EDMD only
+disp('EDMD');
+disp(rmse(X_org(:, SymConfig.EVAL_RANGE), X_est_edmd_only(:, SymConfig.EVAL_RANGE)));
+disp('');
+disp('EDMD online');
+disp(err_online(1, SymConfig.ONLINE_LEN+1));
