@@ -37,20 +37,13 @@ Applying EDMD algorithm(__only__) for created toy data
    3. estimated data with EDMD online
 
 
-### data definition
+## data definition
 ![data_definition](./images/edmd_online.jpeg)
 
 ## File Structure
 ```
 .
-├── archive
-│  ├── fd.txt
-│  ├── main.m
-│  ├── results.txt
-│  ├── sample
-│  │  └── results.txt
-│  └── test.m
-├── create.m
+├── DICTOL                                                  // CSC Library
 ├── data
 │  ├── result
 │  │  ├── linear_affine_time_variant.mat
@@ -60,7 +53,6 @@ Applying EDMD algorithm(__only__) for created toy data
 │     ├── linear_affine_time_variant.mat
 │     ├── linear_time_variant_theta.mat
 │     └── nonlinear_sin_rot.mat
-├── DICTOL                                                                  // CSC Library
 ├── images
 │  ├── algorithm.jpeg
 │  ├── edmd_online.jpeg
@@ -70,12 +62,6 @@ Applying EDMD algorithm(__only__) for created toy data
 │  ├── linear_time_variant_theta_rsme_transition.jpg
 │  ├── nonlinear_sin_rot_rmse_transition.jpg
 │  └── nonlinear_sin_rot_trajectory.jpg
-├── init.m
-├── online.m
-├── only.m
-├── plot.m
-├── README.md
-├── SymConfig.m
 ├── time_evolution
 │  ├── linear_affine_time_variant.m
 │  ├── linear_time_variant_theta.m
@@ -86,9 +72,16 @@ Applying EDMD algorithm(__only__) for created toy data
 │  ├── mat_to_vec_check.m
 │  ├── next_mat_K.m
 │  └── projection_onto_range_mat.m
-└── util_plot
-   ├── error_transition.m
-   └── rmse.m
+├── util_plot
+│  ├── error_transition.m
+│  └── rmse.m
+├── create.m
+├── init.m
+├── online.m
+├── only.m
+├── plot.m
+├── README.md
+└── SymConfig.m
 ```
 
 ## detail
