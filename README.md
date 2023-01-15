@@ -21,13 +21,18 @@ next, in matlab console, type command in below order.
 setpath and set warning off
 
 ### crate
-crate toy data
+* crate toy data
+* output created toy data to `./data/toy_data/`
 
 ### online
-Applying EDMD online algorithm for created toy data
+* Applying EDMD online algorithm for created toy data
+* load toy data from `./data/toy_data/`
+* save variable to `./data/result/`
 
 ### only
-Applying EDMD algorithm(__only__) for created toy data
+* Applying EDMD algorithm(__only__) for created toy data
+* load toy data from `./data/toy_data/`
+* save variable to `./data/result/`
 
 ### plot
 1. plot RMSE transition between toy data and estimated data with EDMD online
@@ -35,6 +40,7 @@ Applying EDMD algorithm(__only__) for created toy data
    1. toy data
    2. estimated data with EDMD(__only__)
    3. estimated data with EDMD online
+* save jpg image file to `./images/`
 
 
 ## data definition

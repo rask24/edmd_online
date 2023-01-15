@@ -32,12 +32,18 @@ classdef SymConfig
         STEP_SIZE = 0.1;
 
         % data path
-        TOY_DATA_PATH = './data/toy_data/';
-        RESULT_PATH = './data/result/'
-        ORIGINAL_DATA_PATH = strcat(SymConfig.TOY_DATA_PATH, SymConfig.TARGET_FILENAME, '.mat');
-        RESULT_FILE_PATH = strcat(SymConfig.RESULT_PATH, SymConfig.TARGET_FILENAME, '.mat'); 
+        TOY_DATA_DIR_PATH = './data/toy_data/';
+        RESULT_DIR_PATH = './data/result/'
+        ORIGINAL_DATA_PATH = strcat(SymConfig.TOY_DATA_DIR_PATH, SymConfig.TARGET_FILENAME, '.mat');
+        RESULT_FILE_PATH = strcat(SymConfig.RESULT_DIR_PATH, SymConfig.TARGET_FILENAME, '.mat'); 
 
         % range
         EVAL_RANGE = SymConfig.SAMPLE_LEN+SymConfig.ONLINE_LEN+1:SymConfig.WHOLE_LEN;
+
+        % images path
+        IMAGES_DIR_PATH = './images/';
+        IMAGES_FILE_PATH = strcat(SymConfig.IMAGES_DIR_PATH, SymConfig.TARGET_FILENAME);
+        IMAGES_RMSE_TRANSITION_FILE_PATH = strcat(SymConfig.IMAGES_DIR_PATH, SymConfig.TARGET_FILENAME, '_rmse_transision');
+        IMAGES_TRAJECTORY_FILE_PATH = strcat(SymConfig.IMAGES_DIR_PATH, SymConfig.TARGET_FILENAME, '_trajectory');
     end
 end
