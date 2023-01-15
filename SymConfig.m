@@ -3,8 +3,10 @@ classdef SymConfig
         % target toy data
         % 1. linear_time_variant
         % 2. nonlinear_sin_rot
-        TARGET_FILENAME = 'linear_time_variant';
+        % -. nonlinear_test
+        % TARGET_FILENAME = 'linear_time_variant';
         % TARGET_FILENAME = 'nonlinear_sin_rot';
+        TARGET_FILENAME = 'nonlinear_test';
 
         % data length
         SAMPLE_LEN = 100;

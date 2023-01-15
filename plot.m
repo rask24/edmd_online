@@ -1,7 +1,3 @@
-clear;
-
-addpath('./util_plot/');
-
 if exist(SymConfig.RESULT_FILE_PATH, 'file') == 2
     load(SymConfig.RESULT_FILE_PATH);
 else

@@ -1,17 +1,40 @@
 # EDMD ONLINE
 toy data test for evaluation of EDMD online
 
-## detail
-1. EDMD part
-2. EDMD online part
+## Usage
+first, choose toy data type in `SymConfig.m`.
+* linear_time_variant
+* nonlinear_sin_rot
 
-### EDMD part
-+ standard EDMD
-+ preparation for EDMD online part
+is available for now.
 
-### EDMD online part
-+ update time evoluetion mapping on feature space
-+ the initial mapping on feature space is determined in standard EDMD
+next, in matlab console, type command in below order.
+
+1. init
+2. create
+3. online
+4. only
+5. plot
+
+### init
+setpath and set warning off
+
+### crate
+crate toy data
+
+### online
+Applying EDMD online algorithm for created toy data
+
+### only
+Applying EDMD algorithm(__only__) for created toy data
+
+### plot
+1. plot RMSE transition between toy data and estimated data with EDMD online
+2. plot trajectory below
+   1. toy data
+   2. estimated data with EDMD(__only__)
+   3. estimated data with EDMD online
+
 
 ### data definition
 ![data_definition](./images/edmd_online.jpeg)
@@ -39,7 +62,6 @@ toy data test for evaluation of EDMD online
 ├── plot.m
 ├── README.md
 ├── SymConfig.m
-├── test.m
 ├── time_evolution
 │  ├── linear_time_variant.m
 │  └── nonlinear_sin_rot.m
