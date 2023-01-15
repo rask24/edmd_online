@@ -9,13 +9,14 @@ end
 err_online = error_transition(X_org, X_est_edmd, ...
     X_est_online, SymConfig.SAMPLE_LEN, SymConfig.ONLINE_LEN, SymConfig.WHOLE_LEN);
 transition_plot_range = SymConfig.SAMPLE_LEN-1:SymConfig.SAMPLE_LEN+SymConfig.ONLINE_LEN-1;
-figure(1);
+fig_rmse_transition = figure(1);
 semilogy(transition_plot_range, err_online, '-o');
 xlabel('index of K');
 ylabel('RMSE');
+saveas(fig_rmse_transition, SymConfig.IMAGES_RMSE_TRANSITION_FILE_PATH, 'jpg');
 
 % plot trajectory
-figure(2);
+fig_trajectory = figure(2);
 hold on;
 scatter(X_org(1, :), X_org(2, :), 'o');
 scatter(X_est_edmd_only(1, :), X_est_edmd_only(2, :), 'x');
@@ -23,6 +24,7 @@ scatter(X_est_online(1, :, SymConfig.ONLINE_LEN), X_est_online(2, :, SymConfig.O
 legend('Toy data', 'EDMD', 'EDMD online')
 xlabel('x_1');
 ylabel('x_2');
+saveas(fig_trajectory, SymConfig.IMAGES_TRAJECTORY_FILE_PATH, 'jpg');
 
 % calculate rmse EDMD online vs EDMD only
 disp('EDMD');
