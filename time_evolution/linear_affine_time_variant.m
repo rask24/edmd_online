@@ -1,4 +1,4 @@
-function [ret1, ret2] = linear_time_variant(input1, input2, mod)
+function [ret1, ret2] = linear_affine_time_variant(input1, input2, mod)
     theta = 0.005;
     mat = [cos(theta) -sin(theta); sin(theta) cos(theta)];
     if mod == 1

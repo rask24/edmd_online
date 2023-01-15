@@ -1,12 +1,12 @@
 classdef SymConfig
     properties (Constant)
         % target toy data
-        % 1. linear_time_variant
-        % 2. nonlinear_sin_rot
-        % -. nonlinear_test
-        % TARGET_FILENAME = 'linear_time_variant';
+        % 1. linear_affine_time_variant
+        % 2. linear_time_variant_theta
+        % 3. nonlinear_sin_rot
+        % TARGET_FILENAME = 'linear_affine_time_variant';
+        TARGET_FILENAME = 'linear_time_variant_theta';
         % TARGET_FILENAME = 'nonlinear_sin_rot';
-        TARGET_FILENAME = 'nonlinear_test';
 
         % data length
         SAMPLE_LEN = 100;

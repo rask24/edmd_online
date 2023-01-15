@@ -1,4 +1,4 @@
-function [ret1, ret2] = nonlinear_test(input1, input2, mod)
+function [ret1, ret2] = linear_time_variant_theta(input1, input2, mod)
 %myFun - Description
 % Syntax: ret = myFun(input)
 % Long description
